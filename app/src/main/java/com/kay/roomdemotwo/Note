@@ -1,0 +1,63 @@
+
+THIS IS A ROOMDEMO (created:18.02.22)
+
+Component of Room
+-> Entity (Table)
+-> Dao (DATA ACCESS OBJECT)
+-> Database (Database holder)
+
+(1) add the 'kotlin-kapt' in our gradle Module plugin (this is annotation stuff)
+(2) add room dependencies
+
+    // Room components
+        implementation "androidx.room:room-runtime:2.3.0"
+        kapt "androidx.room:room-compiler:2.3.0"
+        implementation "androidx.room:room-ktx:2.3.0"
+        androidTestImplementation "androidx.room:room-testing:2.3.0"
+
+(3) Entity
+    -> Create a new Data Class which will be our Entity (we can example call this EmployeeEntity)
+    -> We need an Annotation over the class @Entity
+    -> Specify the table name (we can call this "employeeTable")
+    -> define our properties in our data class
+    -> add the annotation @PrimaryKey(autogenerate = true)
+    -> create 3 objects for our room id, name, email.
+    -> over email object we can get annotation @ColumnInfo(name = "email-id")
+
+(4) DAO
+    -> Create a new interface (we can just call it employeeDao)
+    -> Give an annotation @dao for our interface
+(There are available annotations already simplified for frequent operations)
+
+The first one we are going to have is if we want to store data.
+    -> we will get the annotation @Insert
+    -> create a suspend fun below the annotation (call it insert)
+    -> pass in our Entity (employeeEntity: EmployeeEntity)
+    -> create suspend fun update with annotation @Update
+    -> pass in (employeeEntity: EmployeeEntity)
+    -> create a new suspend function delete and give it annotation @dDelete and do the same like the earlier function.
+
+    -> now we need a function which retrieve our employee
+        -> (we can retrieve all our employees in our database or a single employee in our database)
+            -> use @Query() and in our constructor we need to specify our value
+                -> use ("SELECT * FROM 'employee-table'") <- this is our table name
+                -> create a new function for this query and call it fetchAllEmployees
+                -> this function will return a Flow <-------------(kotlinx.coroutines.flow)
+                    -> this flow will have a <List> which will contains <EmployeeEntity>
+            -> copy that function but change it to fetchEmployeeById
+                -> we need to pass the id that we want to fetch (id:Int)
+                -> change the query values to "SELECT * FROM 'employee-table' where id=:id"
+                -> so we don't need a list in this function but only the employee in our flow -> Flow<EmployeeEntity>
+
+(5) Database
+    -> Create a new class (call it EmployeeDatabase)
+    -> the class should be an abstract class and inherit from RoomDatabase class
+    -> use @Database annotation for this class
+    -> pass in those values (entities = [EmployeeEntity::class], version = 1, exportSchema = false)
+    -> create an abstract function inside this class and call it employeeDao and this will return our employeeDao
+
+    -> now we need to define a companion object which allows us to add functions to the employee database class
+    -> inside the companion object create the private function like below.
+        -> @Volatile
+           private var INSTANCE: EmployeeDatabase? = null
+    -> I will just check my old project how to set up the database.
