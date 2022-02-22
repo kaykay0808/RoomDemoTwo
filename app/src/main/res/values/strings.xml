@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">RoomDemoTwo</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="enter_email_id">Enter Email ID</string>
+    <string name="email_id">Email ID</string>
+    <string name="enter_name">Enter Name</string>
+    <string name="name">Name</string>
+    <string name="add_employee">Add Employee</string>
+    <string name="no_records_available">No records available!!!</string>
+    <string name="all_the_inserted_records">All the inserted records.</string>
+    <string name="update_record">Update Record</string>
+    <string name="update">UPDATE</string>
+    <string name="cancel">CANCEL</string>
 </resources>
