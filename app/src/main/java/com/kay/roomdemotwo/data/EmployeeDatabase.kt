@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import com.kay.roomdemotwo.model.EmployeeDao
 
 @Database(entities = [EmployeeEntity::class], version = 1, exportSchema = false)
-abstract class EmployeeDatabase : RoomDatabase(){
+abstract class EmployeeDatabase : RoomDatabase() {
 
     abstract fun employeeDao(): EmployeeDao
 

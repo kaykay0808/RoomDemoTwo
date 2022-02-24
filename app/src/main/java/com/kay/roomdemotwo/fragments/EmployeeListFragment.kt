@@ -1,6 +1,7 @@
 package com.kay.roomdemotwo.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,12 +9,15 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.kay.roomdemotwo.ItemAdapter
+import com.kay.roomdemotwo.fragments.adapter.ItemAdapter
 import com.kay.roomdemotwo.data.EmployeeEntity
 import com.kay.roomdemotwo.databinding.FragmentEmployeeListBinding
+import com.kay.roomdemotwo.fragments.adapter.EmployeeRecyclerViewDiffUtil
 import com.kay.roomdemotwo.model.EmployeeDao
 import com.kay.roomdemotwo.model.EmployeeViewModel
+import com.kay.roomdemotwo.model.SharedViewModel
 import kotlinx.coroutines.launch
 
 class EmployeeListFragment : Fragment() {
@@ -21,7 +25,8 @@ class EmployeeListFragment : Fragment() {
     private var _binding: FragmentEmployeeListBinding? = null
     private val binding get() = _binding!!
 
-    private val employeeViewModel : EmployeeViewModel by viewModels()
+    private val employeeViewModel: EmployeeViewModel by viewModels()
+    private val sharedViewModel: SharedViewModel by viewModels()
 
     private val adapter: ItemAdapter by lazy { ItemAdapter() }
 
@@ -36,11 +41,20 @@ class EmployeeListFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        //recycler view
+        // recycler view
         recyclerViewSetup()
+
         binding.btnAdd.setOnClickListener {
             addRecord()
         }
+
+        // observe LiveData
+        employeeViewModel.getAllData.observe(
+            viewLifecycleOwner,
+            {
+                setupList(it)
+            }
+        )
     }
 
     private fun recyclerViewSetup() {
@@ -62,16 +76,38 @@ class EmployeeListFragment : Fragment() {
                     Toast.LENGTH_LONG
                 ).show()
                 employeeViewModel.insertData(newData)
-                // after you added new data it's clear the field
+                // after added some new data it's clear the field
                 binding.editTextName.text.clear()
                 binding.etEmailId.text.clear()
             }
         } else {
-          Toast.makeText(
-              context,
-              "Please fill out all fields",
-              Toast.LENGTH_LONG
-          ).show()
+            Toast.makeText(
+                context,
+                "Please fill out all fields",
+                Toast.LENGTH_LONG
+            ).show()
+        }
+    }
+
+    private fun setupList(data: List<EmployeeEntity>){
+        sharedViewModel.checkIfDatabaseEmpty(data)
+        adapter.setData(data)
+        binding.rvItemsList.scheduleLayoutAnimation()
+    }
+
+    private fun setupListOfDataIntoRecyclerView(employeeList:MutableList<EmployeeEntity>, employeeDao: EmployeeDao){
+        val recyclerView = binding.rvItemsList
+        recyclerView.adapter = adapter
+
+        if (employeeList.isNotEmpty()){
+            val itemAdapter = ItemAdapter()
+            recyclerView.layoutManager = LinearLayoutManager(context)
+            binding.rvItemsList.adapter = itemAdapter
+            binding.rvItemsList.visibility = View.VISIBLE
+            binding.tvNoRecordsAvailable.visibility  = View.GONE
+        } else {
+            recyclerView.visibility = View.GONE
+            binding.tvNoRecordsAvailable.visibility  = View.VISIBLE
         }
     }
 

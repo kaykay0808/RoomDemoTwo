@@ -1,5 +1,6 @@
 package com.kay.roomdemotwo.model
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
@@ -21,8 +22,8 @@ interface EmployeeDao {
 
     // reading data / retrieving data?
     @Query("SELECT * FROM 'employeeTable'")
-    fun fetchAllEmployees():Flow<List<EmployeeEntity>>
+    fun fetchAllEmployees(): LiveData<List<EmployeeEntity>>
 
     @Query("SELECT * FROM 'employeeTable' where id=:id")
-    fun fetchEmployeeById(id: Int):Flow<EmployeeEntity>
+    fun fetchEmployeeById(id: Int): LiveData<EmployeeEntity>
 }
