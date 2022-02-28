@@ -9,5 +9,21 @@
         android:id="@+id/employeeListFragment"
         android:name="com.kay.roomdemotwo.fragments.EmployeeListFragment"
         android:label="fragment_employee_list"
-        tools:layout="@layout/fragment_employee_list" />
+        tools:layout="@layout/fragment_employee_list" >
+        <action
+            android:id="@+id/action_employeeListFragment_to_dialogUpdateFragment"
+            app:destination="@id/dialogUpdateFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/dialogUpdateFragment"
+        android:name="com.kay.roomdemotwo.fragments.DialogUpdateFragment"
+        android:label="fragment_dialog_update"
+        tools:layout="@layout/fragment_dialog_update" >
+        <action
+            android:id="@+id/action_dialogUpdateFragment_to_employeeListFragment"
+            app:destination="@id/employeeListFragment" />
+        <argument
+            android:name="currentItem"
+            app:argType="com.kay.roomdemotwo.data.EmployeeEntity" />
+    </fragment>
 </navigation>

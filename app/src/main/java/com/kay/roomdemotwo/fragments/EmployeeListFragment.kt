@@ -9,8 +9,10 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.kay.roomdemotwo.R
 import com.kay.roomdemotwo.fragments.adapter.ItemAdapter
 import com.kay.roomdemotwo.data.EmployeeEntity
 import com.kay.roomdemotwo.databinding.FragmentEmployeeListBinding

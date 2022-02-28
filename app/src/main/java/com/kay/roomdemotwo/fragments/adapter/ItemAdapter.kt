@@ -3,18 +3,20 @@ package com.kay.roomdemotwo.fragments.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.kay.roomdemotwo.R
 import com.kay.roomdemotwo.data.EmployeeEntity
 import com.kay.roomdemotwo.databinding.ItemsRowBinding
+import com.kay.roomdemotwo.fragments.EmployeeListFragmentDirections
 
 class ItemAdapter  : RecyclerView.Adapter<ItemAdapter.ViewHolder>() {
 
     // (private val updateListener: (id:Int) -> Unit, private val deleteListener:(id:Int) -> Unit)
     var items = emptyList<EmployeeEntity>()
 
-    class ViewHolder(private val binding: ItemsRowBinding) : RecyclerView.ViewHolder(binding.root) {
+    class ViewHolder(val binding: ItemsRowBinding) : RecyclerView.ViewHolder(binding.root) {
 
         val linearLayoutRow = binding.LinearLayoutRow
         val tvName = binding.tvName
@@ -30,11 +32,15 @@ class ItemAdapter  : RecyclerView.Adapter<ItemAdapter.ViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val context = holder.itemView.context
         val item = items[position]
 
         holder.tvName.text = item.name
         holder.tvEmail.text = item.email
+        holder.ivEdit.setOnClickListener{
+            //val action =
+                //EmployeeListFragmentDirections.actionEmployeeListFragmentToDialogUpdateFragment(items[position])
+          holder.itemView.findNavController().navigate(R.id.action_employeeListFragment_to_dialogUpdateFragment)
+        }
 
         // change the background color of the linearLayout
         // %2 means every second items
