@@ -108,6 +108,11 @@ class EmployeeListFragment : Fragment() {
                 Toast.LENGTH_SHORT
             ).show()
         }
+        // negative button
+        builder.setNegativeButton("NO") { _, _ -> }
+        builder.setTitle("Delete ${employeeEntity.name}?")
+        builder.setMessage("Are you sure you want to remove ${employeeEntity.name}?")
+        builder.create().show()
     }
 
     override fun onDestroy() {
