@@ -11,4 +11,12 @@ class EmployeeRepository(private val employeeDao: EmployeeDao) {
     suspend fun insert(employeeEntity: EmployeeEntity) {
         employeeDao.insert(employeeEntity)
     }
+
+    suspend fun updateData(employeeEntity: EmployeeEntity){
+        employeeDao.update(employeeEntity)
+    }
+
+    suspend fun deleteItem(employeeEntity: EmployeeEntity){
+        employeeDao.delete(employeeEntity)
+    }
 }

@@ -1,7 +1,7 @@
 package com.kay.roomdemotwo.fragments
 
+import android.app.AlertDialog
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,15 +9,11 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.DiffUtil
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.kay.roomdemotwo.R
-import com.kay.roomdemotwo.fragments.adapter.ItemAdapter
 import com.kay.roomdemotwo.data.EmployeeEntity
 import com.kay.roomdemotwo.databinding.FragmentEmployeeListBinding
-import com.kay.roomdemotwo.fragments.adapter.EmployeeRecyclerViewDiffUtil
-import com.kay.roomdemotwo.model.EmployeeDao
+import com.kay.roomdemotwo.fragments.adapter.ItemAdapter
 import com.kay.roomdemotwo.model.EmployeeViewModel
 import com.kay.roomdemotwo.model.SharedViewModel
 import kotlinx.coroutines.launch
@@ -30,7 +26,9 @@ class EmployeeListFragment : Fragment() {
     private val employeeViewModel: EmployeeViewModel by viewModels()
     private val sharedViewModel: SharedViewModel by viewModels()
 
-    private val adapter: ItemAdapter by lazy { ItemAdapter() }
+    private val args by navArgs<DialogUpdateFragmentArgs>()
+
+    private val adapter: ItemAdapter by lazy { ItemAdapter(deleteFun = ::confirmItemRemoval) }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -91,25 +89,24 @@ class EmployeeListFragment : Fragment() {
         }
     }
 
-    private fun setupList(data: List<EmployeeEntity>){
+    private fun setupList(data: List<EmployeeEntity>) {
         sharedViewModel.checkIfDatabaseEmpty(data)
         adapter.setData(data)
         binding.rvItemsList.scheduleLayoutAnimation()
     }
 
-    private fun setupListOfDataIntoRecyclerView(employeeList:MutableList<EmployeeEntity>, employeeDao: EmployeeDao){
-        val recyclerView = binding.rvItemsList
-        recyclerView.adapter = adapter
-
-        if (employeeList.isNotEmpty()){
-            val itemAdapter = ItemAdapter()
-            recyclerView.layoutManager = LinearLayoutManager(context)
-            binding.rvItemsList.adapter = itemAdapter
-            binding.rvItemsList.visibility = View.VISIBLE
-            binding.tvNoRecordsAvailable.visibility  = View.GONE
-        } else {
-            recyclerView.visibility = View.GONE
-            binding.tvNoRecordsAvailable.visibility  = View.VISIBLE
+    // Show Alertdialog to confirm item removal
+    private fun confirmItemRemoval(employeeEntity: EmployeeEntity) {
+        // Alert dialog that show yes or no
+        val builder = AlertDialog.Builder(requireContext())
+        // positive button
+        builder.setPositiveButton("YES") { _, _ ->
+            employeeViewModel.deleteItem(employeeEntity)
+            Toast.makeText(
+                context,
+                "Successfully Removed",
+                Toast.LENGTH_SHORT
+            ).show()
         }
     }
 
@@ -118,3 +115,5 @@ class EmployeeListFragment : Fragment() {
         _binding = null
     }
 }
+
+

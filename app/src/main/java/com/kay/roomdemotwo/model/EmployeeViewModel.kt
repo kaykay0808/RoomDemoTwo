@@ -22,4 +22,16 @@ class EmployeeViewModel(application: Application) : AndroidViewModel(application
             repository.insert(employeeEntity)
         }
     }
+
+    fun updateData(employeeEntity: EmployeeEntity) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.updateData(employeeEntity)
+        }
+    }
+
+    fun deleteItem(employeeEntity: EmployeeEntity) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.deleteItem(employeeEntity)
+        }
+    }
 }
