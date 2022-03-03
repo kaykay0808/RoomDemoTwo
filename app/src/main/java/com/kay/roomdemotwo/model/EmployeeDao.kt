@@ -7,7 +7,6 @@ import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
 import com.kay.roomdemotwo.data.EmployeeEntity
-import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface EmployeeDao {

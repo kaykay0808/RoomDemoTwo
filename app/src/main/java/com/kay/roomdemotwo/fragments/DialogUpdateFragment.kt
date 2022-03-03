@@ -1,6 +1,5 @@
 package com.kay.roomdemotwo.fragments
 
-import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,7 +12,6 @@ import androidx.navigation.fragment.navArgs
 import com.kay.roomdemotwo.R
 import com.kay.roomdemotwo.data.EmployeeEntity
 import com.kay.roomdemotwo.databinding.FragmentDialogUpdateBinding
-import com.kay.roomdemotwo.databinding.FragmentEmployeeListBinding
 import com.kay.roomdemotwo.model.EmployeeViewModel
 import com.kay.roomdemotwo.model.SharedViewModel
 
@@ -41,7 +39,7 @@ class DialogUpdateFragment : Fragment() {
         // Passing data from listFragment to updateFragment
         binding.etUpdateName.setText(args.currentItem.name)
         binding.etUpdateEmailId.setText(args.currentItem.email)
-        binding.tvUpdate.setOnClickListener{
+        binding.tvUpdate.setOnClickListener {
             updateItem()
         }
     }

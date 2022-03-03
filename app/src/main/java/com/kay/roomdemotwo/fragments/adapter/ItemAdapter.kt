@@ -1,24 +1,17 @@
 package com.kay.roomdemotwo.fragments.adapter
 
-import android.app.AlertDialog
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.kay.roomdemotwo.R
 import com.kay.roomdemotwo.data.EmployeeEntity
 import com.kay.roomdemotwo.databinding.ItemsRowBinding
-import com.kay.roomdemotwo.fragments.DialogUpdateFragmentArgs
 import com.kay.roomdemotwo.fragments.EmployeeListFragmentDirections
-import com.kay.roomdemotwo.model.EmployeeViewModel
-import com.kay.roomdemotwo.model.SharedViewModel
 
-class ItemAdapter(val deleteFun: (EmployeeEntity) -> Unit)  : RecyclerView.Adapter<ItemAdapter.ViewHolder>() {
+class ItemAdapter(val deleteFun: (EmployeeEntity) -> Unit) : RecyclerView.Adapter<ItemAdapter.ViewHolder>() {
 
     // (private val updateListener: (id:Int) -> Unit, private val deleteListener:(id:Int) -> Unit)
     var items = emptyList<EmployeeEntity>()
@@ -43,12 +36,12 @@ class ItemAdapter(val deleteFun: (EmployeeEntity) -> Unit)  : RecyclerView.Adapt
 
         holder.tvName.text = item.name
         holder.tvEmail.text = item.email
-        holder.ivEdit.setOnClickListener{
+        holder.ivEdit.setOnClickListener {
             val action =
                 EmployeeListFragmentDirections.actionEmployeeListFragmentToDialogUpdateFragment(items[position])
-          holder.itemView.findNavController().navigate(action)
+            holder.itemView.findNavController().navigate(action)
         }
-        holder.ivDelete.setOnClickListener{
+        holder.ivDelete.setOnClickListener {
             deleteFun(item)
         }
 

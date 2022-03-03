@@ -1,7 +1,6 @@
 package com.kay.roomdemotwo.model
 
 import android.app.Application
-import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.kay.roomdemotwo.data.EmployeeEntity
@@ -14,7 +13,6 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
     }
 
     /** ======================== Add/Update Fragment ============================================== */
-
 
     // function that checks if the input is empty
     fun verifyDataFromUser(name: String, email: String): Boolean {

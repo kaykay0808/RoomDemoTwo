@@ -55,12 +55,14 @@ class EmployeeListFragment : Fragment() {
                 setupList(it)
             }
         )
-    }
 
-    private fun recyclerViewSetup() {
-        val recyclerView = binding.rvItemsList
-        recyclerView.adapter = adapter
-        recyclerView.layoutManager = LinearLayoutManager(requireActivity())
+        // If list have no Data
+        sharedViewModel.emptyDatabase.observe(
+            viewLifecycleOwner,
+            {
+                showEmptyDatabaseViews(it)
+            }
+        )
     }
 
     private fun addRecord() {
@@ -87,6 +89,20 @@ class EmployeeListFragment : Fragment() {
                 Toast.LENGTH_LONG
             ).show()
         }
+    }
+
+    private fun showEmptyDatabaseViews(emptyDatabase: Boolean) {
+        if (emptyDatabase) {
+            binding.tvNoRecordsAvailable.visibility = View.VISIBLE
+        } else {
+            binding.tvNoRecordsAvailable.visibility = View.INVISIBLE
+        }
+    }
+
+    private fun recyclerViewSetup() {
+        val recyclerView = binding.rvItemsList
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager = LinearLayoutManager(requireActivity())
     }
 
     private fun setupList(data: List<EmployeeEntity>) {
@@ -120,5 +136,3 @@ class EmployeeListFragment : Fragment() {
         _binding = null
     }
 }
-
-
