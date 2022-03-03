@@ -9,7 +9,6 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.kay.roomdemotwo.data.EmployeeEntity
 import com.kay.roomdemotwo.databinding.FragmentEmployeeListBinding
@@ -25,8 +24,6 @@ class EmployeeListFragment : Fragment() {
 
     private val employeeViewModel: EmployeeViewModel by viewModels()
     private val sharedViewModel: SharedViewModel by viewModels()
-
-    private val args by navArgs<DialogUpdateFragmentArgs>()
 
     private val adapter: ItemAdapter by lazy { ItemAdapter(deleteFun = ::confirmItemRemoval) }
 
